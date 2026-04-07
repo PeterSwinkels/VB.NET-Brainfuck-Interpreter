@@ -29,11 +29,20 @@ Public Module CoreModule
 
          Return CurrentCode
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return Nothing
    End Function
+
+   'This procedure displays any exceptions that occur.
+   Private Sub DisplayException(ExceptionO As Exception)
+      Try
+         Console.WriteLine(ExceptionO.Message)
+      Catch
+         [Exit](0)
+      End Try
+   End Sub
 
    'This procedure displays this program's information.
    Private Sub DisplayInformation()
@@ -46,7 +55,7 @@ Public Module CoreModule
             Console.WriteLine()
          End With
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 
@@ -61,16 +70,16 @@ Public Module CoreModule
             ElseIf Character = Tab OrElse Character >= " "c Then
                Escaped.Append(Character)
             Else
-               Escaped.Append(String.Format($"{EscapeCharacter}{ToByte(Character):X2}"))
+               Escaped.Append($"{EscapeCharacter}{ToByte(Character):X2}")
             End If
          Next Character
 
          Return Escaped.ToString()
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
-      Return Nothing
+      Return ""
    End Function
 
    'This procedure executes the specified code.
@@ -126,7 +135,7 @@ Public Module CoreModule
             InstructionP += &H1%
          Loop While InstructionP >= &H0% AndAlso InstructionP < ExecuteCode.Length
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 
@@ -144,20 +153,11 @@ Public Module CoreModule
 
          Return UserInput
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return Nothing
    End Function
-
-   'This procedure handles any errors that occur.
-   Private Sub HandleError(ExceptionO As Exception)
-      Try
-         Console.WriteLine(ExceptionO.Message)
-      Catch
-         [Exit](0)
-      End Try
-   End Sub
 
    'This procedure manages the list of loop start/end addresses.
    Private Function Loops(Optional LoopInstructionP As Integer = Nothing, Optional Code As String = Nothing) As Integer
@@ -193,7 +193,7 @@ Public Module CoreModule
 
          Return NewInstructionP
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return Nothing
@@ -228,7 +228,7 @@ Public Module CoreModule
             Console.WriteLine()
          End If
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 
@@ -271,7 +271,7 @@ Public Module CoreModule
 
          Return Unescaped.ToString()
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
 
       Return Nothing
@@ -285,7 +285,7 @@ Public Module CoreModule
             If Console.CursorLeft + Word.Length >= Console.BufferWidth Then Console.WriteLine()
          Next Word
       Catch ExceptionO As Exception
-         HandleError(ExceptionO)
+         DisplayException(ExceptionO)
       End Try
    End Sub
 End Module
